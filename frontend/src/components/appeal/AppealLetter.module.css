@@ -1,0 +1,227 @@
+.card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-sunken);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.headerLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+
+.headerDisclaimer {
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--ink-muted);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+/* Confidence meter */
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.meterLabel {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+
+.meterTrack {
+  width: 120px;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.meterFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.meterPct {
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+  width: 38px;
+  text-align: right;
+}
+
+.meterText {
+  font-size: 0.72rem;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* Letter body */
+.body {
+  padding: 0;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 400px;
+  padding: 24px 28px;
+  font-family: 'IBM Plex Sans', Georgia, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--ink);
+  background: #ffffff;
+  border: none;
+  outline: none;
+  resize: vertical;
+  display: block;
+}
+
+.textarea:focus {
+  background: #fffef8;
+}
+
+/* Citation chips */
+.citations {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-sunken);
+  flex-wrap: wrap;
+}
+
+.citationsLabel {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+  padding-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.chipTitle {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.7rem;
+  opacity: 0.85;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Action bar */
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-sunken);
+  gap: 12px;
+}
+
+.actionsLeft {
+  display: flex;
+  gap: 8px;
+}
+
+.ghostBtn {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+  transition: all 0.15s;
+}
+
+.ghostBtn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.submitBtn {
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: background 0.15s;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--teal-dark);
+}
+
+.submitBtn:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.submittedBtn {
+  background: var(--ok) !important;
+}
+
+.spinner {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
