@@ -1,0 +1,139 @@
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 4px solid #d97706;
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.icon {
+  font-size: 18px;
+  color: #d97706;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.section {
+  margin-bottom: 16px;
+}
+
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+}
+
+.sectionText {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.fixBox {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.fixLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #92400e;
+  margin-bottom: 6px;
+}
+
+.fixText {
+  font-size: 14px;
+  color: #78350f;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.correctCode {
+  font-size: 13px;
+  color: #92400e;
+  margin-top: 4px;
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: #78350f;
+}
+
+.advice {
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.copyBtn {
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  background: var(--teal);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 9px 18px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.copyBtn:hover:not(:disabled) {
+  background: var(--teal-dark);
+}
+
+.copyBtn:disabled {
+  cursor: default;
+}
+
+.copyBtnDone {
+  background: var(--ok);
+}
+
+.forceBtn {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 9px 18px;
+  transition: all 0.15s;
+}
+
+.forceBtn:hover {
+  color: var(--ink);
+  border-color: var(--ink-muted);
+}
