@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Bash(docker compose:*)",
+      "Bash(psql --version)",
+      "Bash(python3 -m json.tool)",
+      "Bash(npm install:*)",
+      "Bash(echo \"docker compose not available or redis not running — try: docker exec <container> redis-cli FLUSHALL\")",
+      "Bash(find '/Users/freakboyyy/Desktop/AI/Prior Auth Agent/frontend/src' -name EvidencePanel* -o -name evidence*)"
+    ]
+  }
+}
