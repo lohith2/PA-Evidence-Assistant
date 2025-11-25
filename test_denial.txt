@@ -1,0 +1,31 @@
+CONSTRUCTIVE HEALTH INSURANCE
+Prior Authorization Department
+PO Box 12345, Healthcare City, ST 54321
+
+Date: March 28, 2026
+Patient Name: Jane Doe
+Member ID: CH-99088210
+Provider Name: Dr. Sarah Neurologist
+Facility: Specialized Neurology Center
+
+Re: Prior Authorization Request for Ocrevus (ocrelizumab) 600mg IV
+Diagnosis: Relapsing Remitting Multiple Sclerosis (G35)
+
+Dear Dr. Neurologist,
+
+We have received and reviewed your request for prior authorization of Ocrevus (ocrelizumab) 600mg IV infusion for the member listed above. 
+
+Based on the clinical information provided and Constructive Health Medical Policy (Policy #MS-BIO-2024), we must DENY this request. 
+
+Reason for denial:
+The patient's medical records indicate a diagnosis of Relapsing-Remitting Multiple Sclerosis (RRMS). However, the plan criteria require that the patient must have trial and failure, contraindication, or intolerance to at least TWO (2) preferred first-line disease-modifying therapies (such as dimethyl fumarate, glatiramer acetate, or teriflunomide) before approval of Ocrevus.
+
+Our records show the patient has only trialed dimethyl fumarate. There is no documentation provided showing a trial of a second preferred alternative or clinical evidence detailing why a second preferred agent would be medically inappropriate (e.g., specific contraindications or high risk of severe adverse events).
+
+Therefore, this request does not meet our medical necessity criteria for coverage. 
+
+You have the right to appeal this decision. If you have additional clinical information demonstrating why the preferred alternatives are medically inappropriate, or proving that the patient has already failed them, please submit a Letter of Medical Necessity along with the supporting clinical notes and peer-reviewed literature.
+
+Sincerely,
+Medical Director
+Constructive Health Prior Authorization Dept.
