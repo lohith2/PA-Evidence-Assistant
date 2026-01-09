@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { generateAppealPDF } from '../../lib/generatePDF'
+import API_URL from '../../lib/api.js'
 import styles from './CaseDetailDrawer.module.css'
 
 const BADGE_STYLES = {
@@ -26,7 +27,7 @@ export default function CaseDetailDrawer({ caseData, onClose, onStatusChange }) 
 
   useEffect(() => {
     setLoading(true)
-    fetch('/cases/' + caseData.session_id)
+    fetch(`${API_URL}/cases/` + caseData.session_id)
       .then(r => r.json())
       .then(d => {
         setDetails(d)

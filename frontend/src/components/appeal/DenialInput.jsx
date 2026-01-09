@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { useAppealStore } from '../../store/appealStore'
 import { useAppealStream } from '../../hooks/useAppealStream'
+import API_URL from '../../lib/api.js'
 import styles from './DenialInput.module.css'
 
 const EXAMPLES = [
@@ -35,7 +36,7 @@ export default function DenialInput() {
     if (!file) return
     const form = new FormData()
     form.append('file', file)
-    const resp = await fetch('/appeals/pdf/upload-pdf', { method: 'POST', body: form })
+    const resp = await fetch(`${API_URL}/appeals/pdf/upload-pdf`, { method: 'POST', body: form })
     if (resp.ok) {
       const { extracted_text } = await resp.json()
       setDenialText(extracted_text)

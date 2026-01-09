@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import API_URL from '../lib/api.js'
 import DenialInput from '../components/appeal/DenialInput'
 import AgentTrace from '../components/appeal/AgentTrace'
 import EvidencePanel from '../components/appeal/EvidencePanel'
@@ -23,7 +24,7 @@ export default function AppealPage() {
     const sessionId = new URLSearchParams(window.location.search).get('session')
     reset()
     if (!sessionId) return
-    fetch(`/cases/${sessionId}`)
+    fetch(`${API_URL}/cases/${sessionId}`)
       .then(r => {
         if (!r.ok) throw new Error('Case not found')
         return r.json()

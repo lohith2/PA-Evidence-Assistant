@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { usePageRefresh } from '../hooks/usePageRefresh'
+import API_URL from '../lib/api.js'
 import {
   BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
   XAxis, YAxis, Tooltip, ResponsiveContainer, Legend,
@@ -23,7 +24,7 @@ export default function AnalyticsPage() {
 
   const fetchStats = useCallback(async () => {
     try {
-      const res = await fetch('/stats')
+      const res = await fetch(`${API_URL}/stats`)
       const data = await res.json()
       setStats(data)
     } catch {}

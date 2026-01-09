@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { usePageRefresh } from '../hooks/usePageRefresh'
 import CaseDetailDrawer from '../components/appeal/CaseDetailDrawer'
+import API_URL from '../lib/api.js'
 import styles from './CasesPage.module.css'
 
 const STATUS_TABS = ['all', 'draft', 'submitted', 'approved', 'denied']
@@ -19,7 +20,7 @@ export default function CasesPage() {
     if (tab !== 'all') params.set('status', tab)
     if (search) params.set('search', search)
     try {
-      const resp = await fetch(`/cases/?${params}`)
+      const resp = await fetch(`${API_URL}/cases/?${params}`)
       if (resp.ok) {
         const data = await resp.json()
         setCases(data.cases || [])
@@ -39,7 +40,7 @@ export default function CasesPage() {
 
   async function markOutcome(sessionId, outcome) {
     setPendingOutcome(p => ({ ...p, [sessionId]: outcome }))
-    await fetch(`/cases/${sessionId}`, {
+    await fetch(`${API_URL}/cases/${sessionId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ outcome, status: outcome }),

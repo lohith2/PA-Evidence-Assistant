@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAppealStore } from '../../store/appealStore'
 import { generateAppealPDF } from '../../lib/generatePDF'
+import API_URL from '../../lib/api.js'
 import styles from './AppealLetter.module.css'
 
 const SOURCE_CHIP_COLORS = {
@@ -71,7 +72,7 @@ export default function AppealLetter({ onExportSuccess }) {
     if (!sessionId || isSubmitting || isSubmitted) return
     setSubmitting()
     try {
-      const res = await fetch(`/cases/${sessionId}`, {
+      const res = await fetch(`${API_URL}/cases/${sessionId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'submitted', appeal_letter: editedLetter }),

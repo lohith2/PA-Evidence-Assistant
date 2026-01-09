@@ -19,7 +19,16 @@ _redis: Optional[aioredis.Redis] = None
 def _get_redis() -> aioredis.Redis:
     global _redis
     if _redis is None:
-        _redis = aioredis.from_url(settings.redis_url, decode_responses=True)
+        url = settings.redis_url
+        if url.startswith("rediss://"):
+            _redis = aioredis.from_url(
+                url,
+                encoding="utf-8",
+                decode_responses=True,
+                ssl_cert_reqs=None,
+            )
+        else:
+            _redis = aioredis.from_url(url, decode_responses=True)
     return _redis
 
 

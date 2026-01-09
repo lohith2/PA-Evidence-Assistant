@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import { useAppealStore } from '../store/appealStore'
+import API_URL from '../lib/api.js'
 
 export function useAppealStream() {
   const submit = useCallback(async (denialText, { skipAdminCheck = false } = {}) => {
@@ -11,7 +12,7 @@ export function useAppealStream() {
 
     let response
     try {
-      response = await fetch('/appeals/stream', {
+      response = await fetch(`${API_URL}/appeals/stream`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
