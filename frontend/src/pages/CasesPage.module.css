@@ -1,0 +1,207 @@
+.page {
+  padding: 40px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--ok);
+  font-weight: 500;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 3px;
+}
+
+.tab {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: var(--ink-muted);
+  transition: all 0.15s;
+}
+
+.tab:hover { color: var(--ink); }
+
+.tabActive {
+  background: var(--surface-raised);
+  color: var(--ink);
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+}
+
+.search {
+  flex: 1;
+  max-width: 300px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--surface-raised);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.search:focus { border-color: var(--teal); }
+
+.tableWrap {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-muted);
+  padding: 12px 16px;
+  text-align: left;
+  background: var(--surface-sunken);
+  border-bottom: 1px solid var(--border);
+}
+
+.row td {
+  padding: 13px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink);
+  vertical-align: middle;
+}
+
+.row:last-child td { border-bottom: none; }
+.row:hover td { background: var(--surface-sunken); }
+
+.mono { font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+.drug { font-weight: 500; }
+
+.confidence {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.confHigh { background: var(--ok-bg); color: var(--ok); }
+.confMed  { background: var(--warn-bg); color: var(--warn); }
+.confLow  { background: var(--danger-bg); color: var(--danger); }
+
+/* Status/outcome badges */
+.badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.badge_draft     { background: var(--surface-sunken); color: var(--ink-muted); }
+.badge_submitted { background: var(--info-bg); color: var(--info); }
+.badge_approved  { background: var(--ok-bg); color: var(--ok); }
+.badge_denied    { background: var(--danger-bg); color: var(--danger); }
+
+/* Outcome action buttons */
+.outcomeButtons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.approveBtn {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--ok);
+  color: var(--ok);
+  background: transparent;
+  transition: all 0.15s;
+}
+
+.approveBtn:hover:not(:disabled) {
+  background: var(--ok);
+  color: #fff;
+}
+
+.approveBtn:disabled { opacity: 0.5; cursor: default; }
+
+.denyBtn {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  background: transparent;
+  transition: all 0.15s;
+}
+
+.denyBtn:hover:not(:disabled) {
+  background: var(--danger);
+  color: #fff;
+}
+
+.denyBtn:disabled { opacity: 0.5; cursor: default; }
+
+.viewLink {
+  font-size: 12px;
+  color: var(--teal);
+  font-weight: 500;
+}
+
+.viewLink:hover { color: var(--teal-dark); }
+
+/* Empty state */
+.empty {
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.emptyIcon { font-size: 40px; color: var(--border-strong); margin-bottom: 16px; }
+.emptyTitle { font-size: 18px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+.emptySubtitle { font-size: 14px; color: var(--ink-muted); }
+
+/* Skeleton */
+.skeletonRow td { padding: 14px 16px; }
+.skeletonCell { height: 14px; width: 80%; }
