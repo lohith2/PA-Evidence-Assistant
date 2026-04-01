@@ -16,6 +16,7 @@ import structlog
 
 from agent.state import EvidenceItem
 from config import settings
+from retrieval.cache import invalidate_cache_for_drug
 
 log = structlog.get_logger()
 
@@ -234,5 +235,6 @@ async def _ingest_to_pinecone(chunk: EvidenceItem, drug_keyword: str) -> None:
         }])
         log.info("fda_live.ingested_to_pinecone", chunk_id=chunk_id,
                  drug=drug_keyword)
+        await invalidate_cache_for_drug(drug_keyword)
     except Exception as e:
         log.warning("fda_live.ingest_failed", drug=drug_keyword, error=str(e))
