@@ -774,6 +774,14 @@ async def evidence_retriever(state: AgentState) -> dict:
 
         live_fda = await fetch_fda_label(drug)
         if live_fda:
+            live_fda_scores = await asyncio.gather(*[
+                _score_contradicts(chunk["text"], info.get("denial_reason", ""))
+                for chunk in live_fda
+            ])
+            live_fda = [
+                {**chunk, "contradicts_denial": live_fda_scores[i]}
+                for i, chunk in enumerate(live_fda)
+            ]
             fda_evidence.extend(live_fda)
             log.info("evidence_retriever.live_added",
                      count=len(live_fda), drug=drug_keyword)
@@ -783,6 +791,14 @@ async def evidence_retriever(state: AgentState) -> dict:
                 drug, denial_reason, max_results=2
             )
             if live_pubmed:
+                live_pubmed_scores = await asyncio.gather(*[
+                    _score_contradicts(chunk["text"], info.get("denial_reason", ""))
+                    for chunk in live_pubmed
+                ])
+                live_pubmed = [
+                    {**chunk, "contradicts_denial": live_pubmed_scores[i]}
+                    for i, chunk in enumerate(live_pubmed)
+                ]
                 clinical_evidence.extend(live_pubmed)
                 log.info("evidence_retriever.live_pubmed_added",
                          count=len(live_pubmed), drug=drug_keyword)
