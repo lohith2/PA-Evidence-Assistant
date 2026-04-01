@@ -24,24 +24,26 @@ export default function AppealPage() {
   // mode and returning to a fresh /appeal route.
   useEffect(() => {
     const historySessionId = new URLSearchParams(window.location.search).get('session')
+    const rememberedSessionId = window.sessionStorage.getItem('activeAppealSessionId')
+    const targetSessionId = historySessionId || (status === 'idle' ? rememberedSessionId : null)
     setLoadError('')
 
-    if (!historySessionId) {
+    if (!targetSessionId) {
       if (loadedFromHistory) reset()
       return
     }
 
-    if (loadedFromHistory && sessionId === historySessionId) return
+    if (sessionId === targetSessionId && status !== 'idle') return
 
     reset()
-    fetch(`${API_URL}/cases/${historySessionId}`)
+    fetch(`${API_URL}/cases/${targetSessionId}`)
       .then(r => {
         if (!r.ok) throw new Error('Case not found')
         return r.json()
       })
-      .then(data => setLoaded(data))
+      .then(data => setLoaded(data, { loadedFromHistory: Boolean(historySessionId) }))
       .catch(err => setLoadError(err.message))
-  }, [loadedFromHistory, reset, sessionId, setLoaded]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [loadedFromHistory, reset, sessionId, setLoaded, status]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleExportSuccess() {
     setShowBanner(true)

@@ -198,10 +198,12 @@ export const useAppealStore = create((set) => ({
   setSkipAdminCheck: (val) => set({ skipAdminCheck: val }),
 
   // Hydrate store from a saved case (history view)
-  setLoaded: (c) => {
+  setLoaded: (c, options = {}) => {
+    const { loadedFromHistory = true } = options
     const rawItems = c.evidence_items || []
-    const policyChunks = rawItems.filter(i => (i.source || '').toUpperCase() === 'PAYER')
-    const evidenceItems = rawItems.filter(i => (i.source || '').toUpperCase() !== 'PAYER')
+    const policySources = new Set(['PAYER', 'PAYER_POLICIES'])
+    const policyChunks = rawItems.filter(i => policySources.has((i.source || '').toUpperCase()))
+    const evidenceItems = rawItems.filter(i => !policySources.has((i.source || '').toUpperCase()))
 
     return set({
       status: 'done',
@@ -226,7 +228,7 @@ export const useAppealStore = create((set) => ({
         claim_id: null,
       },
       isSubmitted: ['submitted', 'approved', 'denied'].includes(c.status),
-      loadedFromHistory: true,
+      loadedFromHistory,
       nodeTrace: NODE_ORDER.map(node => ({
         node,
         label: NODE_LABELS[node],

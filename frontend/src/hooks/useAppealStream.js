@@ -81,6 +81,9 @@ export function useAppealStream() {
             console.log('payer_found:', data.payer_found)
             console.log('payer_not_found_message:', data.payer_not_found_message)
             console.log('all keys:', Object.keys(data))
+            if (data.session_id) {
+              window.sessionStorage.setItem('activeAppealSessionId', data.session_id)
+            }
             s.setDone(data)
           } else if (eventType === 'error') {
             s.setError(data.message || 'Unknown error')
