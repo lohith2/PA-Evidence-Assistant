@@ -225,3 +225,58 @@
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }
+
+@media (max-width: 767px) {
+  .header {
+    padding: 12px 14px;
+  }
+
+  .meter {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+  }
+
+  .meterLabel {
+    width: 100%;
+  }
+
+  .meterTrack {
+    width: 100%;
+    order: 2;
+  }
+
+  .meterPct,
+  .meterText {
+    order: 3;
+  }
+
+  .textarea {
+    min-height: 340px;
+    padding: 16px;
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+
+  .citations {
+    padding: 12px 14px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 14px 16px;
+  }
+
+  .actionsLeft {
+    flex-direction: column;
+  }
+
+  .ghostBtn,
+  .submitBtn {
+    width: 100%;
+    min-width: 0;
+    padding: 12px 16px;
+  }
+}

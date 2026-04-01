@@ -52,6 +52,10 @@ a { color: inherit; text-decoration: none; }
 button { font-family: var(--font-body); cursor: pointer; }
 input, textarea { font-family: var(--font-body); }
 
+body {
+  overflow-x: hidden;
+}
+
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
@@ -76,4 +80,22 @@ input, textarea { font-family: var(--font-body); }
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+
+@media (max-width: 767px) {
+  html, body {
+    font-size: 14px;
+  }
+
+  button {
+    min-height: 44px;
+  }
+
+  .page-content {
+    padding: 12px;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
 }

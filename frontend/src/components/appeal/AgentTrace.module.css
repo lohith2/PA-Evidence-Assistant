@@ -125,3 +125,44 @@
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
+
+@media (max-width: 767px) {
+  .header {
+    padding: 12px 14px;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .headerTitle {
+    font-size: 11px;
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .row {
+    gap: 10px;
+    padding: 8px 12px;
+    align-items: flex-start;
+  }
+
+  .nodeName {
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .meta {
+    font-size: 0.7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .status {
+    padding-top: 2px;
+  }
+}

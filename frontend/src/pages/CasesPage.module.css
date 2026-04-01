@@ -205,3 +205,110 @@
 /* Skeleton */
 .skeletonRow td { padding: 14px 16px; }
 .skeletonCell { height: 14px; width: 80%; }
+
+@media (max-width: 767px) {
+  .page {
+    padding: 16px 12px;
+  }
+
+  .header {
+    margin-bottom: 18px;
+  }
+
+  .title {
+    font-size: 2rem;
+    line-height: 1.05;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .tab {
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+
+  .search {
+    max-width: none;
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .tableWrap {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .row {
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+
+  .row td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+  }
+
+  .row td:last-child {
+    border-bottom: none;
+  }
+
+  .row td::before {
+    content: attr(data-label);
+    flex: 0 0 88px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .row:hover td {
+    background: transparent;
+  }
+
+  .outcomeButtons {
+    justify-content: flex-end;
+  }
+
+  .approveBtn,
+  .denyBtn {
+    min-height: 34px;
+  }
+
+  .viewLink {
+    min-height: 0;
+  }
+}

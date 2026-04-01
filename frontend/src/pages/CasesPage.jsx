@@ -126,14 +126,14 @@ export default function CasesPage() {
                   ))
                 : cases.map(c => (
                   <tr key={c.session_id} className={styles.row}>
-                    <td className={styles.mono}>
+                    <td className={styles.mono} data-label="Date">
                       {c.created_at
                         ? new Date(c.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                         : '—'}
                     </td>
-                    <td className={styles.drug}>{c.drug_or_procedure || '—'}</td>
-                    <td>{c.payer || '—'}</td>
-                    <td>
+                    <td className={styles.drug} data-label="Drug">{c.drug_or_procedure || '—'}</td>
+                    <td data-label="Payer">{c.payer || '—'}</td>
+                    <td data-label="Confidence">
                       {c.confidence_score != null ? (
                         <span className={`${styles.confidence} ${
                           c.confidence_score >= 75 ? styles.confHigh
@@ -144,12 +144,12 @@ export default function CasesPage() {
                         </span>
                       ) : '—'}
                     </td>
-                    <td>
+                    <td data-label="Status">
                       <span className={`${styles.badge} ${styles['badge_' + c.status] || styles.badge_draft}`}>
                         {c.status || 'draft'}
                       </span>
                     </td>
-                    <td>
+                    <td data-label="Outcome">
                       {c.outcome ? (
                         <span className={`${styles.badge} ${styles['badge_' + c.outcome] || ''}`}>
                           {c.outcome}
@@ -173,7 +173,7 @@ export default function CasesPage() {
                         </div>
                       ) : '—'}
                     </td>
-                    <td>
+                    <td data-label="Actions">
                       <button 
                         className={styles.viewLink} 
                         style={{ border: 'none', background: 'transparent', cursor: 'pointer', padding: 0 }}

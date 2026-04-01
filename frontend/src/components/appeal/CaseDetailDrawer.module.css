@@ -210,3 +210,46 @@
 .badge_submitted { background: #eff6ff; color: #1d4ed8; }
 .badge_approved { background: #f0fdf4; color: #15803d; }
 .badge_denied { background: #fef2f2; color: #dc2626; }
+
+@media (max-width: 767px) {
+  .drawerOverlay {
+    position: fixed;
+  }
+
+  .drawer {
+    width: 100%;
+    border-left: none;
+    border-radius: 0;
+  }
+
+  .header,
+  .section,
+  .actions {
+    padding: 16px 14px;
+  }
+
+  .header {
+    gap: 12px;
+  }
+
+  .detailGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .letterBox {
+    max-height: 50vh;
+    padding: 14px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+}

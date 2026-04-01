@@ -75,3 +75,36 @@
   font-weight: 500;
   line-height: 1.4;
 }
+
+@media (max-width: 767px) {
+  .page {
+    padding: 16px 12px;
+  }
+
+  .content {
+    max-width: none;
+    gap: 16px;
+  }
+
+  .successBanner {
+    top: 78px;
+    left: 12px;
+    right: 12px;
+    transform: none;
+    white-space: normal;
+    align-items: flex-start;
+    padding-right: 48px;
+  }
+
+  .bannerClose {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+
+  .correctionBanner,
+  .error {
+    padding: 12px 14px;
+    font-size: 0.82rem;
+  }
+}

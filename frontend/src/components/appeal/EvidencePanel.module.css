@@ -129,3 +129,45 @@
   padding: 20px;
   text-align: center;
 }
+
+@media (max-width: 767px) {
+  .header {
+    padding: 12px 14px;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .meta {
+    font-size: 0.72rem;
+  }
+
+  .columns {
+    grid-template-columns: 1fr;
+  }
+
+  .column + .column {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .cards {
+    max-height: none;
+    padding: 10px 8px 12px;
+  }
+
+  .card {
+    padding: 10px;
+  }
+
+  .cardTitle {
+    font-size: 0.76rem;
+  }
+
+  .cardExcerpt {
+    font-size: 0.74rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
