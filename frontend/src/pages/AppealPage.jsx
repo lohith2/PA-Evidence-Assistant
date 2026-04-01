@@ -12,26 +12,36 @@ import styles from './AppealPage.module.css'
 export default function AppealPage() {
   const {
     status, nodeTrace, escalated, appealLetter, errorMessage,
-    loadedFromHistory, evidenceItems, adminError,
+    loadedFromHistory, evidenceItems, adminError, sessionId,
     correctionApplied, correctionNote, clearCorrection,
     setLoaded, reset,
   } = useAppealStore()
   const [showBanner, setShowBanner] = useState(false)
   const [loadError, setLoadError] = useState('')
 
-  // Clear stale state on every mount so banners and results never bleed across sessions
+  // Preserve the current in-progress/generated appeal when navigating away and back.
+  // Only reset when explicitly opening a saved history case, or when leaving history
+  // mode and returning to a fresh /appeal route.
   useEffect(() => {
-    const sessionId = new URLSearchParams(window.location.search).get('session')
+    const historySessionId = new URLSearchParams(window.location.search).get('session')
+    setLoadError('')
+
+    if (!historySessionId) {
+      if (loadedFromHistory) reset()
+      return
+    }
+
+    if (loadedFromHistory && sessionId === historySessionId) return
+
     reset()
-    if (!sessionId) return
-    fetch(`${API_URL}/cases/${sessionId}`)
+    fetch(`${API_URL}/cases/${historySessionId}`)
       .then(r => {
         if (!r.ok) throw new Error('Case not found')
         return r.json()
       })
       .then(data => setLoaded(data))
       .catch(err => setLoadError(err.message))
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [loadedFromHistory, reset, sessionId, setLoaded]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleExportSuccess() {
     setShowBanner(true)
