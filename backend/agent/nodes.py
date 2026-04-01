@@ -486,9 +486,10 @@ async def policy_retriever(state: AgentState) -> dict:
     exact_query = f"{info.get('payer', 'unknown')} policy {info.get('policy_code', 'unknown')} {info.get('drug_or_procedure', 'unknown')}"
     semantic_query = f"{info.get('payer', 'unknown')} coverage criteria {info.get('drug_or_procedure', 'unknown')} {info.get('denial_reason', '')}"
 
-    # Build scoped filter: source=PAYER_POLICIES + drug name (prevents cross-drug
-    # contamination) + payer name (prevents cross-payer contamination).
-    drug_class = _detect_drug_class(info.get("drug_or_procedure", ""))  # for logging
+    # Build scoped filter: payer policy source + drug class + payer name.
+    # Payer policy docs are indexed with `drug_class`, not `drug`, so filtering
+    # on canonical drug name can silently exclude the correct policy.
+    drug_class = _detect_drug_class(info.get("drug_or_procedure", ""))
     canonical_drug = _canonical_drug_name(info.get("drug_or_procedure", ""))
     payer_name = info.get("payer", "")
 
@@ -507,9 +508,9 @@ async def policy_retriever(state: AgentState) -> dict:
         payer_variations.append(payer_parts[0])
 
     def _build_filter(payer_variant: str) -> dict:
-        f: dict = {"source": {"$eq": "PAYER_POLICIES"}}
-        if canonical_drug:
-            f["drug"] = {"$eq": canonical_drug}
+        f: dict = {"source": {"$in": ["PAYER_POLICIES", "PAYER"]}}
+        if drug_class:
+            f["drug_class"] = {"$eq": drug_class}
         if payer_variant:
             f["payer"] = {"$eq": payer_variant}
         return f
@@ -531,14 +532,14 @@ async def policy_retriever(state: AgentState) -> dict:
             log.info("policy_retriever.payer_matched", variation=variation)
             break
 
-    # Fallback: if no payer variation matched, drop payer filter and use drug only
-    # so we still surface comparable peer-payer policies rather than nothing.
+    # Fallback: if no payer variation matched, drop payer filter and use drug class
+    # only so we still surface comparable peer-payer policies rather than nothing.
     if not chunks1 and not chunks2:
         log.warning("policy_retriever.payer_not_found", payer=payer_name,
-                    tried=payer_variations, fallback="drug_only")
-        fallback_filter: dict = {"source": {"$eq": "PAYER_POLICIES"}}
-        if canonical_drug:
-            fallback_filter["drug"] = {"$eq": canonical_drug}
+                    tried=payer_variations, fallback="drug_class_only")
+        fallback_filter: dict = {"source": {"$in": ["PAYER_POLICIES", "PAYER"]}}
+        if drug_class:
+            fallback_filter["drug_class"] = {"$eq": drug_class}
         chunks1, chunks2 = await asyncio.gather(
             retriever.search(exact_query, top_k=settings.top_k_policy, metadata_filter=fallback_filter),
             retriever.search(semantic_query, top_k=settings.top_k_policy, metadata_filter=fallback_filter),
