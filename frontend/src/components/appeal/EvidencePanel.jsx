@@ -92,9 +92,14 @@ export default function EvidencePanel() {
   })
 
   // Left column: only PAYER-sourced items
-  // Right column: clinical items that contradict the denial
+  // Right column: contradicting clinical items when present, otherwise
+  // supporting clinical evidence so the panel never looks empty while the
+  // letter is citing retrieved guidelines/FDA content.
   const payerItems = allItems.filter(i => (i.source || '').toUpperCase() === 'PAYER')
-  const guidelineItems = allItems.filter(i => i.contradicts_denial && (i.source || '').toUpperCase() !== 'PAYER')
+  const clinicalItems = allItems.filter(i => (i.source || '').toUpperCase() !== 'PAYER')
+  const contradictingItems = clinicalItems.filter(i => i.contradicts_denial)
+  const showingSupportingEvidence = contradictingItems.length === 0 && clinicalItems.length > 0
+  const guidelineItems = showingSupportingEvidence ? clinicalItems : contradictingItems
 
   // Show amber warning when payer policy not found
   const showPolicyWarning = policyDone && !hasPolicyChunks && !payerFound
@@ -104,7 +109,9 @@ export default function EvidencePanel() {
       <div className={styles.header}>
         <h2 className={styles.title}>Evidence Retrieved</h2>
         <span className={styles.meta}>
-          {guidelineItems.length} item{guidelineItems.length !== 1 ? 's' : ''} contradict denial
+          {showingSupportingEvidence
+            ? `${guidelineItems.length} supporting item${guidelineItems.length !== 1 ? 's' : ''} retrieved`
+            : `${guidelineItems.length} item${guidelineItems.length !== 1 ? 's' : ''} contradict denial`}
         </span>
       </div>
 
@@ -149,7 +156,9 @@ export default function EvidencePanel() {
 
         {/* Right — Clinical guidelines */}
         <div className={styles.column}>
-          <div className={styles.colHeader}>Guidelines say</div>
+          <div className={styles.colHeader}>
+            {showingSupportingEvidence ? 'Supporting evidence says' : 'Guidelines say'}
+          </div>
           <div className={styles.cards}>
             {guidelineItems.length === 0 ? (
               <div className={styles.empty}>
