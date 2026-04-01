@@ -79,6 +79,10 @@ export default function CaseDetailDrawer({ caseData, onClose, onStatusChange }) 
         {/* Header */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
+            <button className={styles.backButton} onClick={onClose}>
+              <span className={styles.backArrow}>←</span>
+              <span>Back to cases</span>
+            </button>
             <h2 className={styles.drugName}>{caseData.drug_or_procedure || 'Unknown'}</h2>
             <p className={styles.payerName}>{caseData.payer || 'Unknown Payer'}</p>
           </div>

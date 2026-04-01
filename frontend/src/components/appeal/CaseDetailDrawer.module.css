@@ -51,6 +51,25 @@
   gap: 4px;
 }
 
+.backButton {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--teal);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.backArrow {
+  font-size: 1rem;
+  line-height: 1;
+}
+
 .drugName {
   font-family: 'Playfair Display', serif;
   font-size: 1.2rem;
@@ -230,6 +249,16 @@
 
   .header {
     gap: 12px;
+    align-items: flex-start;
+  }
+
+  .headerRight {
+    gap: 8px;
+  }
+
+  .backButton {
+    margin-bottom: 10px;
+    font-size: 0.85rem;
   }
 
   .detailGrid {

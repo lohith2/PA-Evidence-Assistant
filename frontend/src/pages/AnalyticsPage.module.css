@@ -79,3 +79,48 @@
   color: var(--ink);
   margin-bottom: 16px;
 }
+
+@media (max-width: 767px) {
+  .page {
+    padding: 16px 12px;
+  }
+
+  .title {
+    font-size: 2rem;
+    line-height: 1.05;
+  }
+
+  .subtitle {
+    margin-bottom: 18px;
+    font-size: 0.9rem;
+  }
+
+  .statGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .statCard {
+    padding: 18px 16px;
+  }
+
+  .statValue {
+    font-size: 2rem;
+  }
+
+  .charts {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .chartCard {
+    padding: 16px 12px 14px;
+    overflow: hidden;
+  }
+
+  .chartTitle {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+  }
+}

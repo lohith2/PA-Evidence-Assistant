@@ -21,6 +21,13 @@ function StatCard({ label, value, sub }) {
 
 export default function AnalyticsPage() {
   const [stats, setStats] = useState(null)
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768)
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   const fetchStats = useCallback(async () => {
     try {
@@ -77,9 +84,17 @@ export default function AnalyticsPage() {
         {/* Bar: Appeals by payer */}
         <div className={styles.chartCard}>
           <h3 className={styles.chartTitle}>Appeals by Payer</h3>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={stats.appeals_by_payer} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-              <XAxis dataKey="payer" tick={{ fontSize: 11 }} />
+          <ResponsiveContainer width="100%" height={isMobile ? 200 : 220}>
+            <BarChart data={stats.appeals_by_payer} margin={{ top: 0, right: 0, left: isMobile ? -30 : -20, bottom: 0 }}>
+              <XAxis
+                dataKey="payer"
+                tick={{ fontSize: 11 }}
+                interval={0}
+                tickFormatter={(val) => {
+                  if (!val) return ''
+                  return isMobile && val.length > 8 ? `${val.slice(0, 8)}...` : val
+                }}
+              />
               <YAxis tick={{ fontSize: 11 }} />
               <Tooltip />
               <Bar dataKey="count" fill="#0d9488" radius={[4,4,0,0]} />
@@ -90,19 +105,22 @@ export default function AnalyticsPage() {
         {/* Bar: Appeals by drug */}
         <div className={styles.chartCard}>
           <h3 className={styles.chartTitle}>Top Denied Drugs</h3>
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={isMobile ? 220 : 280}>
             <BarChart
               data={stats.appeals_by_drug.slice(0, 5)}
               layout="vertical"
-              margin={{ top: 0, right: 20, left: 40, bottom: 0 }}
+              margin={{ top: 0, right: isMobile ? 8 : 20, left: isMobile ? 8 : 40, bottom: 0 }}
             >
               <XAxis type="number" tick={{ fontSize: 11 }} />
               <YAxis 
                 type="category" 
                 dataKey="drug_or_procedure" 
                 tick={{ fontSize: 11 }} 
-                width={140}
-                tickFormatter={(val) => val && val.length > 22 ? val.substring(0, 22) + '...' : val}
+                width={isMobile ? 84 : 140}
+                tickFormatter={(val) => {
+                  const max = isMobile ? 10 : 22
+                  return val && val.length > max ? val.substring(0, max) + '...' : val
+                }}
               />
               <Tooltip />
               <Bar dataKey="count" fill="#2563eb" radius={[0,4,4,0]} />
@@ -113,12 +131,12 @@ export default function AnalyticsPage() {
         {/* Line: Approval rate trend */}
         <div className={styles.chartCard}>
           <h3 className={styles.chartTitle}>Approval Rate Over Time</h3>
-          <ResponsiveContainer width="100%" height={220}>
-            <LineChart data={stats.approval_trend} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+          <ResponsiveContainer width="100%" height={isMobile ? 220 : 220}>
+            <LineChart data={stats.approval_trend} margin={{ top: 5, right: 10, left: isMobile ? -28 : -20, bottom: 0 }}>
               <XAxis dataKey="week" tick={{ fontSize: 11 }} />
               <YAxis tick={{ fontSize: 11 }} />
               <Tooltip />
-              <Legend />
+              <Legend wrapperStyle={{ fontSize: '12px' }} />
               <Line type="monotone" dataKey="appeals" stroke="#6b7280" strokeWidth={2} dot={false} name="Appeals" />
               <Line type="monotone" dataKey="approved" stroke="#059669" strokeWidth={2} dot={false} name="Approved" />
             </LineChart>
@@ -128,14 +146,14 @@ export default function AnalyticsPage() {
         {/* Pie: escalated vs auto-drafted */}
         <div className={styles.chartCard}>
           <h3 className={styles.chartTitle}>Auto-drafted vs Escalated</h3>
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={isMobile ? 240 : 280}>
             <PieChart>
               <Pie
                 data={pieData}
                 cx="50%"
-                cy="45%"
-                innerRadius={55}
-                outerRadius={80}
+                cy={isMobile ? '42%' : '45%'}
+                innerRadius={isMobile ? 42 : 55}
+                outerRadius={isMobile ? 62 : 80}
                 paddingAngle={3}
                 dataKey="value"
                 label={({ percent }) => `${Math.round(percent * 100)}%`}
@@ -146,7 +164,7 @@ export default function AnalyticsPage() {
                 ))}
               </Pie>
               <Tooltip />
-              <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
+              <Legend verticalAlign="bottom" height={isMobile ? 52 : 36} iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
             </PieChart>
           </ResponsiveContainer>
         </div>
