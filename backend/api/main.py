@@ -1,3 +1,4 @@
+import os
 import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,9 +13,28 @@ app = FastAPI(
     docs_url="/docs",
 )
 
+# Get origins from env var
+cors_origins_str = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost:3000,http://localhost:5174"
+)
+
+# Split by comma and strip whitespace and trailing slashes
+origins = [
+    origin.strip().rstrip("/")
+    for origin in cors_origins_str.split(",")
+    if origin.strip()
+]
+
+# Add both with and without trailing slash for each origin
+all_origins = []
+for origin in origins:
+    all_origins.append(origin)
+    all_origins.append(origin + "/")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins.split(","),
+    allow_origins=all_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
