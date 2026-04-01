@@ -19,6 +19,26 @@ function StatCard({ label, value, sub }) {
   )
 }
 
+function renderPieLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent }) {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.58
+  const x = cx + radius * Math.cos((-midAngle * Math.PI) / 180)
+  const y = cy + radius * Math.sin((-midAngle * Math.PI) / 180)
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="#ffffff"
+      textAnchor="middle"
+      dominantBaseline="central"
+      fontSize={12}
+      fontWeight={700}
+    >
+      {`${Math.round(percent * 100)}%`}
+    </text>
+  )
+}
+
 export default function AnalyticsPage() {
   const [stats, setStats] = useState(null)
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768)
@@ -151,12 +171,12 @@ export default function AnalyticsPage() {
               <Pie
                 data={pieData}
                 cx="50%"
-                cy={isMobile ? '42%' : '45%'}
+                cy={isMobile ? '44%' : '45%'}
                 innerRadius={isMobile ? 42 : 55}
                 outerRadius={isMobile ? 62 : 80}
                 paddingAngle={3}
                 dataKey="value"
-                label={({ percent }) => `${Math.round(percent * 100)}%`}
+                label={renderPieLabel}
                 labelLine={false}
               >
                 {pieData.map((_, i) => (

@@ -105,8 +105,10 @@
   .shell {
     display: block;
     min-height: 100svh;
+    min-height: 100dvh;
     padding-top: 68px;
-    padding-bottom: 76px;
+    padding-bottom: calc(104px + env(safe-area-inset-bottom));
+    overflow: visible;
   }
 
   .mobileHeader {
@@ -187,6 +189,7 @@
   .main {
     min-width: 0;
     overflow: visible;
+    min-height: calc(100dvh - 68px - 104px - env(safe-area-inset-bottom));
   }
 
   .mobileTabBar {
@@ -197,7 +200,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
-    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    padding: 10px 12px calc(14px + env(safe-area-inset-bottom));
     background: rgba(255, 255, 255, 0.96);
     border-top: 1px solid var(--border);
     backdrop-filter: blur(14px);
