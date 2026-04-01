@@ -20,3 +20,5 @@ data/
 .pytest_cache/
 .mypy_cache/
 dev_log.md
+backend/.env.production.example
+.claude/
