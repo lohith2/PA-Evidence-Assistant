@@ -1,8 +1,6 @@
-from datetime import timedelta
 from fastapi import APIRouter
 from sqlalchemy import text
 from api.db import AsyncSessionLocal
-from api.date_overrides import display_created_at
 import redis.asyncio as aioredis
 from config import settings
 
@@ -51,8 +49,13 @@ async def stats():
         drug_rows = drug_result.mappings().all()
 
         trend_result = await db.execute(text("""
-            SELECT session_id, outcome
+            SELECT
+                DATE_TRUNC('week', COALESCE(display_created_at, created_at)) as week,
+                COUNT(*) as appeals,
+                COUNT(*) FILTER (WHERE outcome = 'approved') as approved
             FROM appeal_cases
+            GROUP BY week
+            ORDER BY week
         """))
         trend_rows = trend_result.mappings().all()
 
@@ -60,22 +63,6 @@ async def stats():
     submitted = row["submitted_count"] or 0
     approved = row["approved_count"] or 0
     approval_rate = round((approved / submitted * 100) if submitted > 0 else 0, 1)
-
-    trend_buckets: dict[str, dict[str, int | str]] = {}
-    for r in trend_rows:
-        pseudo_date = display_created_at(r["session_id"])
-        week_start = pseudo_date - timedelta(days=pseudo_date.weekday())
-        week_key = week_start.date().isoformat()
-        bucket = trend_buckets.setdefault(week_key, {
-            "week": week_key,
-            "appeals": 0,
-            "approved": 0,
-        })
-        bucket["appeals"] += 1
-        if r["outcome"] == "approved":
-            bucket["approved"] += 1
-
-    approval_trend = [trend_buckets[k] for k in sorted(trend_buckets)]
 
     return {
         "total_appeals": total,
@@ -89,5 +76,12 @@ async def stats():
         "time_saved_hours": round(total * 2.5, 1),
         "appeals_by_payer": [dict(r) for r in payer_rows],
         "appeals_by_drug": [dict(r) for r in drug_rows],
-        "approval_trend": approval_trend,
+        "approval_trend": [
+            {
+                "week": str(r["week"])[:10] if r["week"] else None,
+                "appeals": r["appeals"],
+                "approved": r["approved"],
+            }
+            for r in trend_rows
+        ],
     }

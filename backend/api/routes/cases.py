@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 from sqlalchemy import text
 from api.db import AsyncSessionLocal
-from api.date_overrides import display_created_at
 from agent.phi_scrubber import scrub_phi
 from typing import Optional
 
@@ -34,10 +33,11 @@ async def list_cases(
             SELECT
                 id, session_id, user_id, drug_or_procedure, payer,
                 denial_reason, policy_code, confidence_score, quality_score,
-                escalated, status, outcome, created_at
+                escalated, status, outcome,
+                COALESCE(display_created_at, created_at) as created_at
             FROM appeal_cases
             {where}
-            ORDER BY created_at DESC
+            ORDER BY COALESCE(display_created_at, created_at) DESC
             LIMIT :limit OFFSET :offset
         """), params)
         rows = result.mappings().all()
@@ -47,20 +47,17 @@ async def list_cases(
         """), {k: v for k, v in params.items() if k not in ("limit", "offset")})
         total = count_result.scalar()
 
-    case_items = [
-        {
-            **dict(r),
-            "created_at": display_created_at(r["session_id"]).isoformat(),
-            "confidence_score": round((r["confidence_score"] or 0) * 100),
-            "quality_score": round((r["quality_score"] or 0) * 100),
-        }
-        for r in rows
-    ]
-    case_items.sort(key=lambda c: c["created_at"], reverse=True)
-
     return {
         "total": total,
-        "cases": case_items,
+        "cases": [
+            {
+                **dict(r),
+                "created_at": str(r["created_at"]) if r["created_at"] else None,
+                "confidence_score": round((r["confidence_score"] or 0) * 100),
+                "quality_score": round((r["quality_score"] or 0) * 100),
+            }
+            for r in rows
+        ],
     }
 
 
@@ -68,7 +65,9 @@ async def list_cases(
 async def get_case(session_id: str):
     async with AsyncSessionLocal() as db:
         result = await db.execute(text("""
-            SELECT * FROM appeal_cases WHERE session_id = :session_id
+            SELECT *, COALESCE(display_created_at, created_at) as created_at
+            FROM appeal_cases
+            WHERE session_id = :session_id
         """), {"session_id": session_id})
         row = result.mappings().one_or_none()
 
@@ -82,7 +81,7 @@ async def get_case(session_id: str):
         evidence = ev_result.mappings().all()
 
     case = dict(row)
-    case["created_at"] = display_created_at(case["session_id"]).isoformat()
+    case["created_at"] = str(case["created_at"]) if case["created_at"] else None
     # Scrub any residual PHI from raw_denial_text before returning
     if "raw_denial_text" in case:
         case["raw_denial_text"] = scrub_phi(case["raw_denial_text"])
