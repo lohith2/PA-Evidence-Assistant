@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 from sqlalchemy import text
 from api.db import AsyncSessionLocal
+from api.date_overrides import display_created_at
 from agent.phi_scrubber import scrub_phi
 from typing import Optional
 
@@ -46,17 +47,20 @@ async def list_cases(
         """), {k: v for k, v in params.items() if k not in ("limit", "offset")})
         total = count_result.scalar()
 
+    case_items = [
+        {
+            **dict(r),
+            "created_at": display_created_at(r["session_id"]).isoformat(),
+            "confidence_score": round((r["confidence_score"] or 0) * 100),
+            "quality_score": round((r["quality_score"] or 0) * 100),
+        }
+        for r in rows
+    ]
+    case_items.sort(key=lambda c: c["created_at"], reverse=True)
+
     return {
         "total": total,
-        "cases": [
-            {
-                **dict(r),
-                "created_at": str(r["created_at"]) if r["created_at"] else None,
-                "confidence_score": round((r["confidence_score"] or 0) * 100),
-                "quality_score": round((r["quality_score"] or 0) * 100),
-            }
-            for r in rows
-        ],
+        "cases": case_items,
     }
 
 
@@ -78,7 +82,7 @@ async def get_case(session_id: str):
         evidence = ev_result.mappings().all()
 
     case = dict(row)
-    case["created_at"] = str(case["created_at"]) if case["created_at"] else None
+    case["created_at"] = display_created_at(case["session_id"]).isoformat()
     # Scrub any residual PHI from raw_denial_text before returning
     if "raw_denial_text" in case:
         case["raw_denial_text"] = scrub_phi(case["raw_denial_text"])

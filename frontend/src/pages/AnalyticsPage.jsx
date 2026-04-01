@@ -9,6 +9,19 @@ import styles from './AnalyticsPage.module.css'
 
 const COLORS = ['#0d9488', '#2563eb', '#d97706', '#dc2626', '#7c3aed', '#059669']
 
+function formatPayerLabel(value, isMobile) {
+  if (!value) return ''
+  const compact = value
+    .replace(/BlueCross BlueShield/gi, 'BCBS')
+    .replace(/UnitedHealthcare/gi, 'UHC')
+    .replace(/Anthem Blue Cross/gi, 'Anthem')
+    .replace(/Healthcare/gi, '')
+    .trim()
+
+  if (!isMobile) return compact
+  return compact.length > 6 ? `${compact.slice(0, 6)}…` : compact
+}
+
 function StatCard({ label, value, sub }) {
   return (
     <div className={styles.statCard}>
@@ -110,10 +123,10 @@ export default function AnalyticsPage() {
                 dataKey="payer"
                 tick={{ fontSize: 11 }}
                 interval={0}
-                tickFormatter={(val) => {
-                  if (!val) return ''
-                  return isMobile && val.length > 8 ? `${val.slice(0, 8)}...` : val
-                }}
+                angle={isMobile ? -18 : 0}
+                textAnchor={isMobile ? 'end' : 'middle'}
+                height={isMobile ? 42 : 30}
+                tickFormatter={(val) => formatPayerLabel(val, isMobile)}
               />
               <YAxis tick={{ fontSize: 11 }} />
               <Tooltip />
