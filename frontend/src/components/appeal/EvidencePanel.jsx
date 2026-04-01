@@ -60,7 +60,7 @@ function EvidenceCard({ item }) {
 export default function EvidencePanel() {
   const {
     nodeTrace, evidenceItems, policyChunks, denialInfo,
-    payerFound, payerNotFoundMessage,
+    payerFound,
   } = useAppealStore()
 
   // Show as soon as evidence_retriever completes — don't wait for done
@@ -73,11 +73,12 @@ export default function EvidencePanel() {
 
   if (!evidenceDone && !policyDone) return null
 
-  // Left: payer policy chunks (only when payer was found)
+  const hasPolicyChunks = (policyChunks || []).length > 0
+
+  // Left: payer policy chunks
   // Right: clinical items where contradicts_denial = true
   const rawItems = [
-    // Only include payer policy chunks if the payer was actually found
-    ...(payerFound ? (policyChunks || []).map(c => ({ ...c, contradicts_denial: false, source: 'PAYER' })) : []),
+    ...(policyChunks || []).map(c => ({ ...c, contradicts_denial: false, source: 'PAYER' })),
     ...(evidenceItems || []),
   ]
 
@@ -96,7 +97,7 @@ export default function EvidencePanel() {
   const guidelineItems = allItems.filter(i => i.contradicts_denial && (i.source || '').toUpperCase() !== 'PAYER')
 
   // Show amber warning when payer policy not found
-  const showPolicyWarning = policyDone && !payerFound
+  const showPolicyWarning = policyDone && !hasPolicyChunks && !payerFound
 
   return (
     <div className={styles.container}>

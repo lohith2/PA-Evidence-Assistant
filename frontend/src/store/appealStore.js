@@ -126,12 +126,18 @@ export const useAppealStore = create((set) => ({
       ),
     }
     // Surface evidence as soon as retrieval nodes complete
-    if (node === 'policy_retriever' && data?.policy_chunks?.length) {
-      patch.policyChunks = data.policy_chunks
-    }
-    if (node === 'policy_retriever' && data?.payer_found !== undefined) {
-      patch.payerFound = data.payer_found
-      patch.payerNotFoundMessage = data.payer_not_found_message || ''
+    if (node === 'policy_retriever') {
+      const hasPolicyChunks = Array.isArray(data?.policy_chunks) && data.policy_chunks.length > 0
+      if (hasPolicyChunks) {
+        patch.policyChunks = data.policy_chunks
+        patch.payerFound = true
+        patch.payerNotFoundMessage = ''
+      } else if (data?.payer_found !== undefined) {
+        patch.payerFound = data.payer_found
+        patch.payerNotFoundMessage = data.payer_not_found_message || ''
+      } else if (Array.isArray(data?.policy_chunks)) {
+        patch.policyChunks = []
+      }
     }
     if (node === 'evidence_retriever' && data?.items?.length) {
       patch.evidenceItems = data.items
@@ -140,38 +146,43 @@ export const useAppealStore = create((set) => ({
   }),
 
   setDone: (payload) => {
-    set(state => ({
-    status: 'done',
-    sessionId: payload.session_id,
-    appealLetter: payload.appeal_letter || '',
-    citations: payload.citations || [],
-    // Always overwrite evidenceItems from done payload — it reflects the final state
-    // after contradiction_finder has written contradicts_denial=True back to items.
-    // completeNode('evidence_retriever') populates items early (before contradiction_finder
-    // runs), so those items never have the flag set.
-    ...(payload.evidence_items?.length
-      ? { evidenceItems: payload.evidence_items }
-      : {}),
-    ...(payload.policy_chunks?.length && !state.policyChunks?.length
-      ? { policyChunks: payload.policy_chunks }
-      : {}),
-    ...(payload.payer_found !== undefined
-      ? { payerFound: payload.payer_found, payerNotFoundMessage: payload.payer_not_found_message || '' }
-      : {}),
-    confidenceScore: payload.confidence_score,
-    qualityScore: payload.quality_score,
-    qualityIssues: payload.quality_issues || [],
-    escalated: payload.escalated || false,
-    escalationReason: payload.escalation_reason || '',
-    missingEvidence: payload.missing_evidence || [],
-    denialInfo: payload.denial_info,
-    contradictions: payload.contradictions || [],
-    adminError: payload.admin_error || false,
-    adminErrorType: payload.admin_error_type || '',
-    adminExplanation: payload.admin_explanation || '',
-    adminSuggestion: payload.admin_suggestion || '',
-    adminCorrectCode: payload.admin_correct_code || '',
-  }))
+    set(() => {
+      const hasPolicyChunks = Array.isArray(payload.policy_chunks) && payload.policy_chunks.length > 0
+
+      return {
+        status: 'done',
+        sessionId: payload.session_id,
+        appealLetter: payload.appeal_letter || '',
+        citations: payload.citations || [],
+        // Always overwrite evidenceItems from done payload — it reflects the final
+        // state after contradiction_finder has written contradicts_denial=True back
+        // to items.
+        ...(payload.evidence_items?.length
+          ? { evidenceItems: payload.evidence_items }
+          : {}),
+        ...(Array.isArray(payload.policy_chunks)
+          ? { policyChunks: payload.policy_chunks }
+          : {}),
+        ...(hasPolicyChunks
+          ? { payerFound: true, payerNotFoundMessage: '' }
+          : payload.payer_found !== undefined
+            ? { payerFound: payload.payer_found, payerNotFoundMessage: payload.payer_not_found_message || '' }
+            : {}),
+        confidenceScore: payload.confidence_score,
+        qualityScore: payload.quality_score,
+        qualityIssues: payload.quality_issues || [],
+        escalated: payload.escalated || false,
+        escalationReason: payload.escalation_reason || '',
+        missingEvidence: payload.missing_evidence || [],
+        denialInfo: payload.denial_info,
+        contradictions: payload.contradictions || [],
+        adminError: payload.admin_error || false,
+        adminErrorType: payload.admin_error_type || '',
+        adminExplanation: payload.admin_explanation || '',
+        adminSuggestion: payload.admin_suggestion || '',
+        adminCorrectCode: payload.admin_correct_code || '',
+      }
+    })
   },
 
   setError: (msg) => set({ status: 'error', errorMessage: msg }),

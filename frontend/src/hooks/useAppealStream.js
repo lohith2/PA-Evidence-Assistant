@@ -76,6 +76,11 @@ export function useAppealStream() {
           } else if (eventType === 'node_done') {
             s.completeNode(data.node, data.data)
           } else if (eventType === 'done') {
+            console.log('=== DONE PAYLOAD FIELDS ===')
+            console.log('policy_chunks:', data.policy_chunks)
+            console.log('payer_found:', data.payer_found)
+            console.log('payer_not_found_message:', data.payer_not_found_message)
+            console.log('all keys:', Object.keys(data))
             s.setDone(data)
           } else if (eventType === 'error') {
             s.setError(data.message || 'Unknown error')
