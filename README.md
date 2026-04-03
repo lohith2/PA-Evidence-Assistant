@@ -194,7 +194,7 @@ docker compose up --build
 
 <div align="center">
 
-Built with ❤️ using LangGraph · FastAPI · React · Pinecone · Voyage AI · Google Gemini
+Built using LangGraph · FastAPI · React · Pinecone · Voyage AI · Google Gemini
 
 *Portfolio project by [lohith2](https://github.com/lohith2) — demonstrating agentic RAG, hybrid retrieval, and production ML system design*
 
