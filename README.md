@@ -12,9 +12,7 @@
 [![Gemini](https://img.shields.io/badge/Gemini-2.5-4285F4?style=flat-square&logo=google)](https://deepmind.google/gemini)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker)](https://docker.com)
 
-**[🚀 Live Demo](https://pa-evidence-assistant.vercel.app)** · **[📖 Documentation](#-architecture)** · **[⚡ Quick Start](#-quick-start)**
-
-![Demo](https://img.shields.io/badge/Status-Live-brightgreen?style=flat-square)
+**[🚀 Live Demo](https://pa-evidence-assistant.vercel.app)** 
 
 </div>
 
