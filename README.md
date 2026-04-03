@@ -199,5 +199,9 @@ Built with ❤️ using LangGraph · FastAPI · React · Pinecone · Voyage AI �
 *Portfolio project by [lohith2](https://github.com/lohith2) — demonstrating agentic RAG, hybrid retrieval, and production ML system design*
 
 **[🚀 Try the Live Demo](https://pa-evidence-assistant.vercel.app)**
+## License
+
+MIT © 2026 Lohith Reddy Kondreddy
 
 </div>
+
